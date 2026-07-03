@@ -122,9 +122,17 @@ export default function Home() {
               type="file"
               accept=".pdf,.doc,.docx"
               onChange={(e) => setResume(e.target.files?.[0] ?? null)}
-              className="mt-1 w-full text-sm text-zinc-700 dark:text-zinc-300"
+              className="mt-1 w-full cursor-pointer text-sm text-zinc-700 file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-zinc-900 file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-zinc-700 dark:text-zinc-300 dark:file:bg-white dark:file:text-black dark:hover:file:bg-zinc-200"
             />
-            <p className="mt-1 text-xs text-zinc-500">PDF, DOC, or DOCX. Max 5MB.</p>
+            <p className="mt-1.5 text-xs text-zinc-500">
+              {resume ? (
+                <span className="font-medium text-zinc-700 dark:text-zinc-300">
+                  Selected: {resume.name}
+                </span>
+              ) : (
+                "PDF, DOC, or DOCX. Max 5MB."
+              )}
+            </p>
           </div>
 
           {status === "error" && (
