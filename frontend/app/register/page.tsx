@@ -12,10 +12,11 @@ interface LoginResponse {
   token_type: string;
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signupCode, setSignupCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,15 +26,15 @@ export default function LoginPage() {
     setErrorMessage("");
 
     try {
-      const response = await apiRequest<LoginResponse>("/api/auth/login", {
+      const response = await apiRequest<LoginResponse>("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, signup_code: signupCode }),
       });
       setToken(response.access_token);
       router.push("/leads");
     } catch (error) {
-      setErrorMessage(error instanceof ApiError ? error.message : "Login failed.");
+      setErrorMessage(error instanceof ApiError ? error.message : "Registration failed.");
       setSubmitting(false);
     }
   }
@@ -42,10 +43,10 @@ export default function LoginPage() {
     <div className="flex flex-1 items-center justify-center bg-zinc-50 px-4 dark:bg-black">
       <div className="w-full max-w-sm rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-          Attorney login
+          Attorney registration
         </h1>
         <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Sign in to view and manage submitted leads.
+          Requires an invite code from your organization.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
@@ -68,8 +69,21 @@ export default function LoginPage() {
             <input
               required
               type="password"
+              minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Invite code
+            </label>
+            <input
+              required
+              type="password"
+              value={signupCode}
+              onChange={(e) => setSignupCode(e.target.value)}
               className="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-50"
             />
           </div>
@@ -83,13 +97,13 @@ export default function LoginPage() {
             disabled={submitting}
             className="mt-2 rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
           >
-            {submitting ? "Signing in..." : "Sign in"}
+            {submitting ? "Creating account..." : "Create account"}
           </button>
         </form>
 
         <p className="mt-6 text-center text-xs text-zinc-400">
-          <Link href="/register" className="hover:underline">
-            Have an invite code? Register
+          <Link href="/login" className="hover:underline">
+            Already have an account? Sign in
           </Link>
         </p>
       </div>

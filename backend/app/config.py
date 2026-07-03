@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     attorney_email: str = "attorney@example.com"
     attorney_password: str = "changeme123"
 
+    # Shared invite code required to register a new attorney account.
+    # Registering grants access to every lead's PII and resume, so this
+    # isn't left open to anyone who finds /register.
+    attorney_signup_code: str = "change-me-invite-code"
+
     # Email
     smtp_host: str | None = None
     smtp_port: int = 587

@@ -83,6 +83,11 @@ Seeded attorney login (both options, unless you changed the env vars):
 - Email: `attorney@example.com`
 - Password: `changeme123`
 
+To create an additional attorney account, go to `/register` — it requires
+the invite code in `ATTORNEY_SIGNUP_CODE` (default `change-me-invite-code`
+in `.env.example`; change this before deploying anywhere real, since
+anyone with the code can register and see every lead's PII/resume).
+
 ## Troubleshooting
 
 - **CORS errors in the browser console**: check that `CORS_ORIGINS` on the

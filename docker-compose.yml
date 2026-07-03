@@ -27,6 +27,7 @@ services:
       JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me-please-use-a-long-random-value}
       ATTORNEY_EMAIL: ${ATTORNEY_EMAIL:-attorney@example.com}
       ATTORNEY_PASSWORD: ${ATTORNEY_PASSWORD:-changeme123}
+      ATTORNEY_SIGNUP_CODE: ${ATTORNEY_SIGNUP_CODE:-change-me-invite-code}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_USERNAME: ${SMTP_USERNAME:-}

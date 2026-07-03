@@ -71,6 +71,7 @@ obvious next step.
 |---|---|---|---|
 | POST | `/api/leads`                   | none | Prospect submits the form (multipart: `first_name`, `last_name`, `email`, `resume`). Validates file type (pdf/doc/docx) and size (≤5MB), persists the lead as `PENDING`, sends both emails. |
 | POST | `/api/auth/login`              | none | Attorney logs in with email+password, gets back a JWT. |
+| POST | `/api/auth/register`           | invite code | Creates a new attorney account, gated by a shared `ATTORNEY_SIGNUP_CODE` (see "Auth design"). |
 | GET  | `/api/leads`                   | JWT  | List all leads, newest first. |
 | PATCH| `/api/leads/{id}/status`       | JWT  | Transition a lead's status. Only `PENDING -> REACHED_OUT` is accepted; anything else is a 409. |
 | GET  | `/api/leads/{id}/resume`       | JWT  | Stream the original resume file back for download. |
@@ -84,11 +85,22 @@ leak them.
 
 JWT (HS256) issued on login, sent as `Authorization: Bearer <token>` on
 every protected request, verified by a FastAPI dependency
-(`get_current_user`) that decodes the token and loads the user. The
+(`get_current_user`) that decodes the token and loads the user. One
 attorney account is seeded from `ATTORNEY_EMAIL`/`ATTORNEY_PASSWORD` env
-vars on startup if it doesn't already exist — no signup flow, because the
-assignment describes one internal user role, not a multi-tenant identity
-system.
+vars on startup if it doesn't already exist, so the app is usable with zero
+setup.
+
+Additional attorneys can self-register via `POST /api/auth/register` (and
+the `/register` page). Registration is gated by a shared
+`ATTORNEY_SIGNUP_CODE` env var, checked with a constant-time comparison —
+without that gate, anyone who found `/register` could create an account
+and pull down every prospect's PII and resume, since there's only one
+role in this system and it has full read access to all leads. A shared
+invite code is a deliberately lightweight stand-in for real
+company-employee verification (SSO, admin-approved invites, a company
+email-domain check); it's enough to keep the endpoint from being wide open
+to the public internet without building an admin-approval flow the
+assignment didn't ask for.
 
 **Frontend gating is client-side**, not via Next.js middleware: the token
 lives in `localStorage`, and the `/leads` page checks for it in a
