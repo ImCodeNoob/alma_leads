@@ -28,8 +28,10 @@ http://localhost:3000/login to sign in as the attorney and view
 `/leads`.
 
 Because `SMTP_HOST` is empty by default, emails aren't actually sent —
-they're written to `./backend/emails/*.txt` (mounted out of the `backend`
-container as a volume) and logged to the `backend` container's stdout. Set
+they're written to `./backend/emails/*.txt` on your machine (bind-mounted
+into the `backend` container, so the files show up directly on disk, no
+`docker exec` needed) and also logged to the `backend` container's stdout.
+Set
 `SMTP_HOST`/`SMTP_PORT`/`SMTP_USERNAME`/`SMTP_PASSWORD`/`SMTP_FROM` in
 `.env` to send real email through any SMTP provider (Gmail app password,
 Mailtrap, SendGrid SMTP relay, etc.) and restart.
