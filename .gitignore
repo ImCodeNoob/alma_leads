@@ -1,0 +1,33 @@
+# Legacy scaffolding predating this project — not part of the submission
+/src/
+/lib/
+/bin/
+/.vscode/
+/venv/
+
+# Python
+__pycache__/
+*.pyc
+backend/.venv/
+backend/app.db
+backend/test.db
+backend/uploads/
+backend/emails/
+backend/test_uploads/
+backend/test_emails/
+backend/.env
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/next-env.d.ts
+frontend/*.tsbuildinfo
+frontend/.env.local
+frontend/.env
+
+# Docker Compose local env
+.env
+
+# OS
+.DS_Store
