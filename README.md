@@ -26,6 +26,12 @@ Then open:
 See [`docs/RUNNING_LOCALLY.md`](docs/RUNNING_LOCALLY.md) for the full
 walkthrough, including running each service manually without Docker.
 
+## Demo
+
+[`demo/e2e-walkthrough.mov`](demo/e2e-walkthrough.mov) — screen recording
+of the full flow: submitting the public form, the resulting emails,
+logging in as the attorney, and marking a lead as reached out.
+
 ## Docs
 
 - [`docs/RUNNING_LOCALLY.md`](docs/RUNNING_LOCALLY.md) — how to run this,
