@@ -22,6 +22,10 @@ Then open:
 - http://localhost:3000 — public lead form
 - http://localhost:3000/login — attorney login (`attorney@example.com` /
   `changeme123` by default)
+- http://localhost:3000/register — create an additional attorney account;
+  requires the invite code in `ATTORNEY_SIGNUP_CODE` (default
+  `change-me-invite-code` — change it before deploying anywhere real,
+  since anyone with the code can register and see every lead's PII/resume)
 
 See [`docs/RUNNING_LOCALLY.md`](docs/RUNNING_LOCALLY.md) for the full
 walkthrough, including running each service manually without Docker.
