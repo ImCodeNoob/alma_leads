@@ -84,7 +84,13 @@ def test_lead_notification_goes_to_every_registered_attorney(client):
     _submit_lead(client)
 
     email_files = list(Path(settings.fallback_email_dir).glob("*.txt"))
-    notified = {f.read_text().splitlines()[0] for f in email_files}
-    assert "To: attorney@example.com" in notified
-    assert "To: second-attorney@example.com" in notified
-    assert "To: prospect@example.com" in notified
+    contents = [f.read_text() for f in email_files]
+
+    attorney_emails = [c for c in contents if "Category: attorney_notification" in c]
+    prospect_emails = [c for c in contents if "Category: prospect_confirmation" in c]
+
+    assert {c.splitlines()[1] for c in attorney_emails} == {
+        "To: attorney@example.com",
+        "To: second-attorney@example.com",
+    }
+    assert [c.splitlines()[1] for c in prospect_emails] == ["To: prospect@example.com"]

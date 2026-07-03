@@ -46,6 +46,7 @@ def create_lead(
                 "Thanks for submitting your information. An attorney will review "
                 "your application and reach out shortly.\n\nBest,\nThe Team"
             ),
+            category="prospect_confirmation",
         )
     except Exception:
         logger.exception("Failed to send prospect confirmation email for lead %s", lead.id)
@@ -62,6 +63,7 @@ def create_lead(
                     f"Email: {lead.email}\n"
                     f"Lead ID: {lead.id}\n"
                 ),
+                category="attorney_notification",
             )
         except Exception:
             logger.exception(
