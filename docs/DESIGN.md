@@ -126,11 +126,17 @@ deployment sets `SMTP_HOST`/`SMTP_USERNAME`/`SMTP_PASSWORD` and gets real
 delivery with no code changes.
 
 Email sending happens synchronously, inline in the `POST /api/leads`
-request, and failures are caught and logged rather than failing the
-request — the lead is already committed to the database by that point, so
-a flaky SMTP provider shouldn't cost the prospect their submission. The
-tradeoff: if email sending is slow, so is the form submission. At real
-scale this would move to a background task/queue (see below).
+request, and failures are caught and logged per-recipient rather than
+failing the request — the lead is already committed to the database by
+that point, so a flaky SMTP provider (or one bad attorney address)
+shouldn't cost the prospect their submission or block notifying everyone
+else. The tradeoff: if email sending is slow, so is the form submission.
+At real scale this would move to a background task/queue (see below).
+
+The "new lead submitted" notification goes to **every** registered
+attorney (queried from the `User` table), not a single fixed address —
+otherwise an attorney who signs up via `/register` after the first one
+would never be notified of new leads.
 
 ## File storage design
 

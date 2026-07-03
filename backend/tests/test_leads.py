@@ -1,4 +1,7 @@
 import io
+from pathlib import Path
+
+from app.config import settings
 
 
 def _submit_lead(client, email="prospect@example.com"):
@@ -66,3 +69,22 @@ def test_login_rejects_wrong_password(client):
         "/api/auth/login", json={"email": "attorney@example.com", "password": "wrong"}
     )
     assert response.status_code == 401
+
+
+def test_lead_notification_goes_to_every_registered_attorney(client):
+    client.post(
+        "/api/auth/register",
+        json={
+            "email": "second-attorney@example.com",
+            "password": "s3cret-pass",
+            "signup_code": settings.attorney_signup_code,
+        },
+    )
+
+    _submit_lead(client)
+
+    email_files = list(Path(settings.fallback_email_dir).glob("*.txt"))
+    notified = {f.read_text().splitlines()[0] for f in email_files}
+    assert "To: attorney@example.com" in notified
+    assert "To: second-attorney@example.com" in notified
+    assert "To: prospect@example.com" in notified

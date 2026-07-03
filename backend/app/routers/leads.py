@@ -4,7 +4,6 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, s
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
-from app.config import settings
 from app.database import get_db
 from app.email_service import send_email
 from app.models import Lead, LeadStatus, User
@@ -48,18 +47,26 @@ def create_lead(
                 "your application and reach out shortly.\n\nBest,\nThe Team"
             ),
         )
-        send_email(
-            to=settings.attorney_email,
-            subject="New lead submitted",
-            body=(
-                f"A new lead was submitted:\n\n"
-                f"Name: {lead.first_name} {lead.last_name}\n"
-                f"Email: {lead.email}\n"
-                f"Lead ID: {lead.id}\n"
-            ),
-        )
     except Exception:
-        logger.exception("Failed to send lead notification emails for lead %s", lead.id)
+        logger.exception("Failed to send prospect confirmation email for lead %s", lead.id)
+
+    attorney_emails = [row[0] for row in db.query(User.email).all()]
+    for attorney_email in attorney_emails:
+        try:
+            send_email(
+                to=attorney_email,
+                subject="New lead submitted",
+                body=(
+                    f"A new lead was submitted:\n\n"
+                    f"Name: {lead.first_name} {lead.last_name}\n"
+                    f"Email: {lead.email}\n"
+                    f"Lead ID: {lead.id}\n"
+                ),
+            )
+        except Exception:
+            logger.exception(
+                "Failed to send lead notification to %s for lead %s", attorney_email, lead.id
+            )
 
     return lead
 
