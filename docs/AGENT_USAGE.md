@@ -46,3 +46,10 @@ possibly redirect once safely on the client) — see
 takeaway: this class of bug (SSR/client state mismatches) is essentially
 invisible to typechecking and linting, and only running the actual app in
 a real browser caught it.
+
+**Session transcript**: see
+[`docs/SESSION_TRANSCRIPT.md`](SESSION_TRANSCRIPT.md) for representative
+excerpts of the actual back-and-forth — the up-front architecture
+questions, the bug above as it was found, and the iterative feedback
+loop (UI tweaks, the attorney-registration feature, switching from
+file-logged to real SMTP email) that shaped the rest of the build.

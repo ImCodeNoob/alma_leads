@@ -3,8 +3,10 @@
 This repository was built with Claude Code (Anthropic's coding agent),
 directed and reviewed by a human throughout. See
 [`docs/AGENT_USAGE.md`](docs/AGENT_USAGE.md) for what was delegated vs.
-decided by hand, and for a concrete example of agent-produced code that
-was wrong on the first pass and how it was fixed.
+decided by hand and for a concrete example of agent-produced code that
+was wrong on the first pass and how it was fixed, and
+[`docs/SESSION_TRANSCRIPT.md`](docs/SESSION_TRANSCRIPT.md) for excerpts
+of the actual session.
 
 - **Agent-generated**: all source code — `backend/`, `frontend/`,
   `docker-compose.yml`, the two `Dockerfile`s, and the documentation in

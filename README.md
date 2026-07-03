@@ -34,6 +34,8 @@ walkthrough, including running each service manually without Docker.
   contract, and the tradeoffs behind each design choice
 - [`docs/AGENT_USAGE.md`](docs/AGENT_USAGE.md) — how this repo was built
   with a coding agent
+- [`docs/SESSION_TRANSCRIPT.md`](docs/SESSION_TRANSCRIPT.md) —
+  representative excerpts from the actual agent session
 - [`NOTES.md`](NOTES.md) — attribution
 
 ## Repo layout
